@@ -1,0 +1,222 @@
+# Rule-based relevance scoring configuration.
+# Loaded by src/evaluation/rubric_scorer.py.
+
+# -----------------------------------------------------------------------------
+# Title categories
+# -----------------------------------------------------------------------------
+ml_titles:
+  - "ml engineer"
+  - "machine learning engineer"
+  - "ai research engineer"
+  - "ai engineer"
+  - "senior data engineer"
+  - "data scientist"
+  - "senior data scientist"
+  - "applied scientist"
+  - "research engineer"
+
+technical_adjacent_titles:
+  - "data engineer"
+  - "backend engineer"
+  - "analytics engineer"
+  - "senior software engineer"
+  - "software engineer"
+  - "full stack developer"
+  - "java developer"
+  - ".net developer"
+  - "mobile developer"
+  - "frontend engineer"
+  - "qa engineer"
+
+non_technical_titles:
+  - "hr manager"
+  - "marketing manager"
+  - "accountant"
+  - "customer support"
+  - "civil engineer"
+  - "mechanical engineer"
+  - "content writer"
+  - "business analyst"
+  - "operations manager"
+  - "sales"
+  - "project manager"
+  - "graphic designer"
+
+# -----------------------------------------------------------------------------
+# Skill sets
+# -----------------------------------------------------------------------------
+# Strict JD-aligned skills used for Score 5 (advanced/expert, >=12 months).
+ml_skills_strict:
+  - "embeddings"
+  - "retrieval"
+  - "ranking"
+  - "llms"
+  - "fine-tuning llms"
+  - "vector search"
+  - "prompt engineering"
+  - "transformers"
+
+# Broader ML / data / systems skills used for Score 3/4.
+ml_skills_broad:
+  - "python"
+  - "nlp"
+  - "deep learning"
+  - "machine learning"
+  - "pytorch"
+  - "tensorflow"
+  - "computer vision"
+  - "image classification"
+  - "object detection"
+  - "speech recognition"
+  - "recommendation systems"
+  - "rag"
+  - "semantic search"
+  - "bm25"
+  - "llamaindex"
+  - "haystack"
+  - "langchain"
+  - "milvus"
+  - "weaviate"
+  - "pinecone"
+  - "chroma"
+  - "qdrant"
+  - "bentoml"
+  - "mlflow"
+  - "weights & biases"
+  - "gan"
+  - "gans"
+  - "cnn"
+  - "lora"
+  - "qlora"
+  - "fine-tuning"
+  - "spark"
+  - "airflow"
+  - "dbt"
+  - "snowflake"
+  - "databricks"
+  - "bigquery"
+  - "kafka"
+  - "elasticsearch"
+  - "flink"
+  - "apache beam"
+
+# Generic engineering skills that create only marginal overlap (Score 2).
+overlapping_skills:
+  - "sql"
+  - "aws"
+  - "docker"
+  - "kubernetes"
+  - "java"
+  - "c++"
+  - "c"
+  - "javascript"
+  - "typescript"
+  - "react"
+  - "angular"
+  - "node.js"
+  - "mongodb"
+  - "postgresql"
+  - "redis"
+  - "rest apis"
+  - "microservices"
+  - "fastapi"
+  - "flask"
+  - "django"
+  - "spring boot"
+  - "ci/cd"
+  - "go"
+  - "rust"
+  - "html"
+  - "css"
+  - "webpack"
+  - "redux"
+  - "graphql"
+  - "grpc"
+  - "git"
+
+# -----------------------------------------------------------------------------
+# Career-description phrases
+# -----------------------------------------------------------------------------
+# Phrases that demonstrate hands-on ranking/retrieval/LLM work (Score 5/4 tie-breaker).
+career_ml_system_phrases:
+  - "ranking"
+  - "retrieval"
+  - "recommendation"
+  - "recommender"
+  - "embedding"
+  - "vector"
+  - "matching"
+  - "fine-tuning"
+  - "llm"
+  - "llms"
+  - "reranking"
+  - "search"
+
+# Phrases that demonstrate production-scale data/ML systems (Score 4).
+career_production_phrases:
+  - "production"
+  - "pipeline"
+  - "platform"
+  - "system"
+  - "service"
+  - "scale"
+  - "model"
+  - "machine learning"
+  - "data warehouse"
+  - "streaming"
+  - "real-time"
+  - "tb"
+  - "gb"
+  - "million"
+  - "billion"
+
+# Phrases that indicate software/data engineering work (Score 3).
+career_software_data_phrases:
+  - "software"
+  - "data"
+  - "engineer"
+  - "engineering"
+  - "developer"
+  - "development"
+  - "backend"
+  - "frontend"
+  - "full-stack"
+  - "analyst"
+  - "analytics"
+
+# -----------------------------------------------------------------------------
+# Numeric thresholds
+# -----------------------------------------------------------------------------
+thresholds:
+  score_5:
+    min_yoe: 5
+    max_yoe: 9
+    min_strict_skills: 3
+    min_skill_duration_months: 12
+    min_interview_completion_rate: 0.6
+  score_4:
+    min_yoe: 4
+    max_yoe: 10
+    min_advanced_skills: 2
+    min_skill_duration_months: 12
+    min_profile_completeness: 50
+  score_3:
+    min_yoe: 3
+    max_yoe: 11
+    min_broad_skills: 1
+  score_2:
+    min_yoe: 2
+    max_yoe: 12
+  score_1:
+    max_yoe: 2
+    min_profile_completeness: 30
+  hard_zero:
+    max_yoe: 50
+    min_profile_completeness_unverified: 20
+
+# Lower-bound proficiency mapping for "at least" comparisons.
+proficiency_levels:
+  beginner: 1
+  intermediate: 2
+  advanced: 3
+  expert: 4

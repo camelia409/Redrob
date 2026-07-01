@@ -1,7 +1,7 @@
 """Per-candidate honeypot checks. All thresholds live in configs/honeypot_rules.yaml."""
 import datetime
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Set, Tuple
 
 import yaml
 
@@ -235,6 +235,20 @@ ALL_CHECKS = [
     ("duplicate_candidate_fingerprint", check_duplicate_candidate_fingerprint),
 ]
 
+# High-signal checks used for hard-zero gates.  Excludes synthetic-artifact checks
+# (identical_career_descriptions, stale_high_activity) that are useful for ranking
+# quality but not strong enough alone to force a zero score.
+GATE_CHECKS = [
+    "timeline_inflation",
+    "expert_zero_duration",
+    "expert_zero_endorsements",
+    "tenure_over_240_months",
+    "consulting_keyword_stuffing",
+    "rookie_perfect_profile",
+    "skill_assessment_inversion",
+    "duplicate_candidate_fingerprint",
+]
+
 
 def run_all_checks(
     candidate: Dict[str, Any], duplicate_ids: set = None
@@ -253,3 +267,22 @@ def run_all_checks(
 def honeypot_score(candidate: Dict[str, Any], duplicate_ids: set = None) -> int:
     """Count of tripped checks (0–10)."""
     return sum(1 for tripped, _ in run_all_checks(candidate, duplicate_ids).values() if tripped)
+
+
+def honeypot_score_gates_only(
+    candidate: Dict[str, Any], duplicate_ids: Set[str] | None = None
+) -> int:
+    """Count of tripped high-signal checks only (synthetic artifacts excluded)."""
+    duplicate_ids = duplicate_ids or set()
+    gate_set = set(GATE_CHECKS)
+    total = 0
+    for name, fn in ALL_CHECKS:
+        if name not in gate_set:
+            continue
+        if name == "duplicate_candidate_fingerprint":
+            tripped, _ = fn(candidate, duplicate_ids)
+        else:
+            tripped, _ = fn(candidate)
+        if tripped:
+            total += 1
+    return total

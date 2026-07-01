@@ -14,6 +14,8 @@ from src.validation.honeypots import (
     check_duplicate_candidate_fingerprint,
     run_all_checks,
     honeypot_score,
+    honeypot_score_gates_only,
+    GATE_CHECKS,
 )
 from src.validation.duplicates import find_duplicate_fingerprints
 
@@ -274,6 +276,30 @@ def test_honeypot_score_counts_tripped_checks():
         career_history=[{"duration_months": 60}],
     )
     assert honeypot_score(c) >= 1
+
+
+def test_gate_checks_excludes_artifact_checks():
+    artifact_checks = {"identical_career_descriptions", "stale_high_activity"}
+    assert not artifact_checks.intersection(GATE_CHECKS)
+
+
+def test_honeypot_score_gates_only_excludes_artifact_checks():
+    c = _candidate(
+        candidate_id="CAND_ARTIFACT",
+        redrob_signals={
+            "last_active_date": "2025-12-01",
+            "applications_submitted_30d": 5,
+            "profile_views_received_30d": 0,
+        },
+        career_history=[
+            {"description": "Built ML pipelines"},
+            {"description": "Built ML pipelines"},
+        ],
+    )
+    full = honeypot_score(c)
+    gates = honeypot_score_gates_only(c)
+    assert full >= 2
+    assert gates == 0
 
 
 # ---------------------------------------------------------------------------
