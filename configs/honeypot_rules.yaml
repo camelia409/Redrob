@@ -1,0 +1,45 @@
+reference_date: "2026-07-01"
+
+timeline_inflation:
+  ratio_threshold: 2.0
+
+expert_zero_duration:
+  min_expert_skills: 3
+
+expert_zero_endorsements:
+  min_expert_skills: 3
+
+tenure_over_240_months:
+  max_months: 240
+
+consulting_keyword_stuffing:
+  min_skills: 12
+  firms:
+    - infosys
+    - tcs
+    - tata consultancy
+    - wipro
+    - accenture
+    - cognizant
+    - capgemini
+    - hcl
+    - tech mahindra
+    - mphasis
+    - ibm
+    - ey
+    - pwc
+    - kpmg
+    - deloitte
+
+rookie_perfect_profile:
+  max_yoe: 1
+  min_completeness: 99
+
+stale_high_activity:
+  min_days_since_active: 180
+  suspicious_counters:
+    - applications_submitted_30d
+    - profile_views_received_30d
+
+skill_assessment_inversion:
+  expert_skill_max_assessment: 30
