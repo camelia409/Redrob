@@ -185,3 +185,65 @@ so it should be retained as a feature rather than discarded. The next milestone
 should train a point-wise or pair-wise re-ranker over BM25 score, Dense-v2 score,
 SkillCount, and metadata signals, with a held-out validation set to choose the
 fusion weights.
+
+
+## 2026-07-02 — Milestone 10: 7-family feature extractor
+
+### What was built
+
+A `FeatureExtractor` that produces ~25 numeric features from 7 orthogonal
+families for every candidate in the BM25 ∪ Dense-v2 top-1500 retrieval funnel
+(2,477 candidates). Features are all normalized to [0, 1]. No feature uses the
+silver score directly.
+
+### Feature matrix
+
+- Rows: **2,477**
+- Columns: **31** (candidate_id + 25 features + silver_score + honeypot_score +
+  raw bm25_score + raw dense_score)
+- Output: `data/processed/feature_matrix.parquet`
+
+### Top-5 features by |corr| with silver_score
+
+| rank | feature | corr |
+|------|---------|------|
+| 1 | yoe_in_ideal_band | 0.6212 |
+| 2 | mean_skill_duration_months_ml_capped | 0.5890 |
+| 3 | career_production_phrase_count_capped | 0.5098 |
+| 4 | tech_role_fraction | 0.4701 |
+| 5 | bm25_score_normalized | 0.4501 |
+
+### Bottom-5 features by |corr| with silver_score (flagged for removal)
+
+| rank | feature | corr |
+|------|---------|------|
+| 21 | broad_ml_skill_count_capped | 0.0787 |
+| 22 | mean_tenure_months_capped | 0.0634 |
+| 23 | dense_v2_score | -0.0576 |
+| 24 | notice_period_score | 0.0458 |
+| 25 | career_ml_system_phrase_count_capped | -0.0442 |
+
+### Surprises
+
+1. **`strict_ml_skill_count_capped` is negatively correlated (-0.3757).**
+   Having many strict JD skills is associated with *lower* silver scores in the
+   retrieved union. This is likely because keyword-stuffing profiles load up on
+   exact skills but fail other rubric gates (title, YoE, interview rate,
+   honeypots). It reinforces the JD warning that keyword matching alone is a
+   trap.
+2. **`dense_v2_score` has almost no correlation with silver_score (-0.0576).**
+   Manual inspection showed Dense-v2 returns plausible candidates, but the raw
+   cosine is not a strong silver predictor on its own. It should still be
+   retained as a feature for the learned re-ranker because it captures
+   complementary semantic signal.
+3. **`career_production_phrase_count_capped` is far more predictive than
+   `career_ml_system_phrase_count_capped`.** The rubric rewards production-scale
+   evidence more than retrieval-specific buzzwords.
+
+### Decision
+
+Keep all 25 features for the first re-ranker, but expect the model to down-weight
+or zero out the bottom-5. After the first model fit, run feature importance and
+remove any feature with both low correlation and low model importance. Do not
+remove features now based on correlation alone because some may become useful in
+non-linear combinations (e.g., dense_v2_score × yoe_in_ideal_band).

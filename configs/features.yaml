@@ -1,0 +1,69 @@
+# Feature-engineering configuration.
+# Loaded by src/features/families.py and src/features/extractor.py.
+
+reference_date: "2026-07-01"
+
+feature_caps:
+  strict_ml_skills: 5
+  broad_ml_skills: 10
+  skill_duration_months: 36
+  career_ml_phrases: 8
+  career_production_phrases: 8
+  mean_tenure_months: 36
+
+product_companies:
+  - google
+  - microsoft
+  - amazon
+  - meta
+  - netflix
+  - apple
+  - openai
+  - anthropic
+  - redrob
+  - flipkart
+  - swiggy
+  - zomato
+  - razorpay
+  - phonepe
+  - cred
+  - ola
+  - uber
+  - airbnb
+  - stripe
+
+preferred_cities:
+  - pune
+  - noida
+
+tier1_indian_cities:
+  - mumbai
+  - delhi
+  - new delhi
+  - bangalore
+  - bengaluru
+  - hyderabad
+  - chennai
+  - kolkata
+  - ahmedabad
+  - gurgaon
+  - gurugram
+  - pune
+  - noida
+
+consulting_firms:
+  - infosys
+  - tcs
+  - tata consultancy
+  - wipro
+  - accenture
+  - cognizant
+  - capgemini
+  - hcl
+  - tech mahindra
+  - mphasis
+  - ibm
+  - ey
+  - pwc
+  - kpmg
+  - deloitte
