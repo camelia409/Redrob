@@ -7,14 +7,21 @@ This module is intentionally offline/precomputation: `build()` encodes the full
 from pathlib import Path
 from typing import List
 
+import yaml
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from src.utils.paths import PROCESSED
+from src.utils.paths import CONFIGS, PROCESSED
 
 
 EMB_PATH = PROCESSED / "candidate_embeddings.npy"
 IDS_PATH = PROCESSED / "candidate_ids.npy"
+
+
+def load_jd_query_v2() -> str:
+    """Return the hand-distilled technical JD query from configs/jd_query.yaml."""
+    with open(CONFIGS / "jd_query.yaml", "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)["jd_query_v2"]
 
 
 class EmbeddingIndex:

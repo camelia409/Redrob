@@ -118,3 +118,70 @@ Key take-aways:
 4. **Next milestone:** add a learned re-ranker / cross-encoder that takes BM25
    + Dense + SkillCount features and outputs a calibrated score, rather than
    relying on heuristic RRF fusion.
+
+
+## 2026-07-02 — Milestone 9: distilled JD query + dense failure-mode investigation
+
+### Interpretation rule stated BEFORE seeing numbers
+
+- **Healthy:** Dense-v2 (distilled query) returns plausible Senior AI/Search
+  engineers with no junk, has non-zero top-100 overlap with BM25, and improves
+  `mean_silver@100` over Dense-v1.
+- **Success for fusion:** Hybrid-v2 (BM25 + Dense-v2) improves MAP or
+  `mean_silver@100` over BM25 alone.
+- **Red flag:** Dense-v2 still surfaces HR/Marketing/Engineering managers with
+  generic AI headlines → the dense channel is fundamentally misaligned and
+  should be dropped.
+- **Decision options:**
+  1. BM25 only if Dense-v2 is garbage.
+  2. Hybrid-v2 if Dense-v2 is good but not additive to BM25 on NDCG.
+  3. BM25 + Dense-v2 as separate feature channels (recommended if manual
+     inspection is mixed and both channels find good-but-different candidates).
+
+### Actual result
+
+Full-population ablation with Dense-v2 and Hybrid-v2 added:
+
+| ranker      | NDCG@10 | NDCG@50 | MAP   | P@10 | mean_silver@100 | HP@100 | labeled-NDCG@10 | runtime |
+|-------------|---------|---------|-------|------|-----------------|--------|-----------------|---------|
+| random      | 0.413   | 0.451   | 0.349 | 0.30 | 2.01            | 0.0%   | 0.313           | 0.1s    |
+| skill_count | 0.798   | 0.794   | 0.574 | 1.00 | 3.41            | 0.0%   | 0.949           | 0.2s    |
+| bm25        | **0.731** | **0.840** | 0.583 | 0.90 | **3.53**        | 0.0%   | 0.976           | 74.0s   |
+| dense       | 0.402   | 0.396   | 0.389 | 0.50 | 1.70            | 0.0%   | 0.703           | 4.2s    |
+| dense_v2    | 0.598   | 0.705   | 0.370 | 0.90 | 3.34            | 0.0%   | **1.000**       | 0.1s    |
+| hybrid_rrf  | 0.634   | 0.642   | 0.659 | 0.90 | 2.64            | 0.0%   | 0.957           | 74.1s   |
+| hybrid_v2   | 0.604   | 0.739   | **0.821** | 0.80 | 3.41            | 0.0%   | 0.979           | 75.3s   |
+
+Top-100 Jaccard(BM25, Dense-v1) = **0.000**.  
+Top-100 Jaccard(BM25, Dense-v2) = **0.449** (62 / 138 candidates overlap).
+
+Manual inspection of top-20 lists (see `docs/dense_investigation.md`):
+
+| ranker   | plausible AI engineer | plain-language Tier-5 | keyword stuffer | junk |
+|----------|----------------------:|----------------------:|----------------:|-----:|
+| BM25     | 20/20                 | 0/20                  | 0/20            | 0/20 |
+| Dense-v1 | 0/20                  | 0/20                  | 20/20           | 0/20 |
+| Dense-v2 | 18/20                 | 0/20                  | 2/20            | 0/20 |
+
+### Interpretation
+
+The long narrative JD was the main failure mode for Dense-v1. Once the query is
+hand-distilled to the technical requirements, MiniLM finds an almost entirely
+plausible set of Search / AI / Recommendation-Systems engineers.
+
+Dense-v2 is **not garbage** — manual inspection shows no junk and meaningful
+overlap with BM25 — but it is also **not strictly better** than BM25 on the
+metrics the rubric optimizes for (NDCG@10/50). Hybrid-v2 improves MAP and
+`mean_silver@100` versus BM25, which suggests the two channels are capturing
+complementary signal, but simple RRF is too crude to realize the full gain.
+
+### Decision
+
+**Use BM25 + Dense-v2 as separate feature channels for a learned re-ranker.**
+
+BM25 remains the strongest single ranker for NDCG@10/50. Dense-v2 adds
+complementary semantic candidates and reaches a labeled-subset NDCG@10 of 1.000,
+so it should be retained as a feature rather than discarded. The next milestone
+should train a point-wise or pair-wise re-ranker over BM25 score, Dense-v2 score,
+SkillCount, and metadata signals, with a held-out validation set to choose the
+fusion weights.

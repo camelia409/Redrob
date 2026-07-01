@@ -1,0 +1,17 @@
+jd_query_v2: |
+  Senior AI/ML engineer with 5–9 years of experience building production ranking,
+  retrieval, and matching systems. Must have shipped embeddings-based retrieval to
+  real users using sentence-transformers, OpenAI embeddings, BGE, E5, or similar,
+  and handled embedding drift, index refresh, and retrieval-quality regression in
+  production. Must have built or operated vector-database or hybrid-search
+  infrastructure such as Pinecone, Weaviate, Qdrant, Milvus, OpenSearch,
+  Elasticsearch, or FAISS. Strong Python and production software engineering.
+  Must have designed and run evaluation frameworks for ranking systems using
+  NDCG, MRR, MAP, offline-to-online correlation, and A/B test interpretation.
+  Experience owning the intelligence layer of a talent or search product is
+  preferred. Product-company experience and end-to-end shipping of search or
+  recommendation systems strongly preferred over pure consulting or research-only
+  backgrounds. Nice to have: LLM fine-tuning experience with LoRA, QLoRA, or PEFT;
+  learning-to-rank models such as XGBoost-based or neural rankers; exposure to
+  HR-tech or marketplace products; distributed systems and large-scale inference
+  optimization; open-source contributions in AI/ML.
