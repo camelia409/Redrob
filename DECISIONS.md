@@ -1,13 +1,51 @@
-# Architectural Decisions
+# Engineering decisions log
 
-## 2026-07-01 — Milestone 1: Initial scaffold + data staging
-- Created `final/` project skeleton.
-- Copied (did not move) 10 official challenge files into `final/data/challenge/`.
-- Committed SHA-256 checksums to guarantee data integrity across the project lifetime.
-- Python 3.11 was not available on the host; only Python 3.13.6 is installed. The originally pinned versions (numpy 1.26.4, pandas 2.2.2, scikit-learn 1.4.2, lightgbm 4.3.0) do not ship pre-built wheels for Python 3.13 and fail to build from source without a C compiler. After confirming with the user, updated pins to Python 3.13-compatible versions: numpy 2.1.3, pandas 2.2.3, scikit-learn 1.6.1, sentence-transformers 3.4.1, lightgbm 4.6.0, pytest 8.3.5, streamlit 1.41.1, tqdm 4.67.1, orjson 3.10.15, pyyaml 6.0.2.
-- Excluded `candidates.jsonl` from git (large file); all other challenge files are committed to keep the repo self-contained for judges.
+## 2026-07-01 — Milestone 7: baseline rankers + first NDCG
 
-## 2026-07-01 — Relocation
-- Project moved from C:\Users\ABINANIDA\Downloads\[PUB]...\Final to E:\redrob-hackathon\final due to C: drive space exhaustion during venv install.
-- Official challenge source folder on C: remains READ-ONLY and untouched (verified by before/after diff).
-- Installed torch 2.12.1+cpu from the PyTorch CPU wheel index (Python 3.13.6 requires torch >= 2.12; the requested torch 2.3.0 does not provide cp313 wheels).
+### Interpretation rule stated BEFORE seeing numbers
+
+- **Healthy:** BM25 NDCG@10 > SkillCount NDCG@10 > Random NDCG@10 + 0.05 on the
+  full 100K silver-label evaluation.
+- **Red flag:** BM25 < SkillCount → BM25 tokenization or JD text is off.
+- **Both barely beat Random:** silver labels are too sparse/noisy for top-K
+  evaluation; investigate before Milestone 8.
+
+### Actual result
+
+Full-pool evaluation (unknown candidates treated as relevance 0):
+
+| ranker      | NDCG@10 | NDCG@50 | NDCG@100 | MAP   | P@10 | P@100 | HP@100 | runtime |
+|-------------|---------|---------|----------|-------|------|-------|--------|---------|
+| random      | 0.000   | 0.000   | 0.000    | 0.002 | 0.00 | 0.00  | 0.0%   | 0.1s    |
+| skill_count | 0.000   | 0.014   | 0.008    | 0.007 | 0.00 | 0.01  | 0.0%   | 0.3s    |
+| bm25        | 0.000   | 0.000   | 0.008    | 0.008 | 0.00 | 0.01  | 0.0%   | 82.2s   |
+
+Labeled-only diagnostic (metrics computed on the 500 silver-labeled candidates only):
+
+| ranker      | NDCG@10 | NDCG@50 | MAP   | P@10 |
+|-------------|---------|---------|-------|------|
+| random      | 0.313   | 0.462   | 0.408 | 0.30 |
+| skill_count | 0.949   | 0.885   | 0.836 | 1.00 |
+| bm25        | 0.976   | 0.955   | 0.828 | 1.00 |
+
+Only 0–1 labeled candidates appear in any top-50 of the full-pool ranking
+because the silver set covers just 0.5% of the 100K pool.
+
+### Interpretation
+
+Neither baseline dominates on the full-pool NDCG@10 because the evaluation is
+pessimistic: the top-10 is almost entirely unlabeled candidates, all treated as
+irrelevant. The red flag is **not** a broken BM25 ranker — the labeled-only
+diagnostics show both BM25 and SkillCount rank the known-relevant candidates
+very well (NDCG@10 ≈ 0.95–0.98). This means the ranking signal exists, but the
+sparse silver labels are insufficient to measure it at K=10 on the full pool.
+
+### Action
+
+1. Proceed to Milestone 8 (dense embeddings + hybrid retrieval) because the
+   baselines prove there is a measurable ranking signal on the labeled subset.
+2. Before final evaluation, build a denser silver/gold set or evaluate
+   primarily on the labeled subset / pooled evaluation so top-K metrics are
+   not dominated by unknown candidates.
+3. Keep BM25 as a strong lexical baseline and add it as a feature channel in
+   the hybrid model.
