@@ -1,0 +1,60 @@
+3
+Analytics Engineer with relevant ML skills and YoE in range, but no expert-level skills and duplicate career descriptions.
+3
+Backend Engineer with multiple intermediate retrieval/ML skills and YoE in range; consulting keyword stuffing is minor but noted.
+3
+Strong ML-adjacent skills but consulting keyword stuffing and duplicate career descriptions reduce confidence.
+3
+Senior Data Engineer with strong data tooling and one advanced ML skill; clean honeypot record.
+4
+Senior Data Engineer with two advanced ML skills, YoE in target range, and no honeypot flags.
+4
+Backend Engineer with multiple advanced retrieval/ML skills and YoE in range; consulting keyword stuffing is minor.
+2
+Data Engineer with relevant LLM/RAG exposure but based in USA and unwilling to relocate, limiting fit.
+3
+Analytics Engineer with intermediate ML/systems skills and YoE in range, but at consulting firm with keyword stuffing.
+4
+Senior Data Engineer with multiple advanced ML/retrieval skills and YoE in range, despite consulting-firm flags.
+4
+Analytics Engineer with advanced vector-search and MLOps skills, YoE in range, and clean honeypot record.
+2
+Frontend engineer with some ML-adjacent skills but no ML-focused career evidence and title mismatch.
+2
+Full-stack developer with some data engineering exposure but limited ML relevance and no advanced skills.
+3
+Java Developer with one advanced ML skill and several data/ML tools, YoE in range; title is adjacent.
+2
+.NET developer with a relevant LLM skill but short duration and limited overall ML depth.
+2
+Mobile developer with one RAG skill but otherwise not aligned with the ML engineering role.
+3
+Software Engineer with an advanced ML skill and data tooling, but consulting firm and duplicate descriptions.
+3
+.NET Developer with multiple relevant ML/data skills including advanced forecasting; title is adjacent.
+2
+Full-stack developer with one advanced computer-vision skill but consulting keyword stuffing and limited ML focus.
+2
+Java Developer with one RAG skill and data tooling but limited ML depth and junior-ish YoE.
+3
+.NET Developer with two advanced ML/relevant skills and long duration, but title mismatch and duplicate descriptions.
+1
+Mechanical Engineer with minimal YoE and stale profile; one ML deployment skill does not overcome mismatch.
+0
+Civil Engineer with no ML/ranking skills and unwilling to relocate; completely outside target profile.
+1
+Graphic Designer title with some data tooling exposure but no ML relevance and multiple honeypot flags.
+1
+Operations Manager with only one short-duration ML-adjacent skill and no engineering career evidence.
+0
+Customer Support role with no engineering title, no India/relocate fit, and duplicate career descriptions.
+1
+Content Writer with some tech tool exposure but no ML/ranking career evidence and stale activity signals.
+0
+Business Analyst in USA unwilling to relocate with no ML skills and consulting keyword stuffing.
+0
+Civil Engineer with no ML/ranking skills and duplicate career descriptions.
+1
+Accountant with some backend skills but title/career mismatched to ML engineering and stale profile.
+2
+Project Manager with one advanced ML tooling skill but no hands-on engineering/ranking evidence.

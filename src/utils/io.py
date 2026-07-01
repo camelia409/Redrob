@@ -1,6 +1,7 @@
 """Streaming I/O helpers. Never load full JSONL into memory."""
+import csv
 from pathlib import Path
-from typing import Iterator, Dict, Any
+from typing import Iterator, Dict, Any, List
 
 import orjson
 
@@ -12,3 +13,12 @@ def iter_jsonl(path: Path) -> Iterator[Dict[str, Any]]:
             if not line.strip():
                 continue
             yield orjson.loads(line)
+
+
+def read_csv_if_exists(path: Path) -> List[Dict[str, Any]]:
+    """Read a CSV file into a list of dicts; return empty list if missing."""
+    if not path.exists():
+        return []
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        return list(reader)
