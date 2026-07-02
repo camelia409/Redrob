@@ -101,3 +101,34 @@ def test_opening_phrase_variation_across_candidates():
         # First 3 words serve as a proxy for the lead phrase.
         openings.add(" ".join(text.split()[:3]).lower())
     assert len(openings) >= 7, f"Only {len(openings)} distinct openings: {openings}"
+
+
+def test_ml_titled_candidate_at_mid_rank_not_flagged_as_non_ml():
+    candidate = {
+        "candidate_id": "CAND_TEST",
+        "profile": {
+            "current_title": "Machine Learning Engineer",
+            "current_company": "TestCo",
+            "years_of_experience": 5.0,
+            "location": "Pune",
+            "country": "India",
+        },
+        "career_history": [
+            {"title": "ML Engineer", "company": "X", "description": "shipped ranker", "duration_months": 24}
+        ],
+        "skills": [
+            {"name": "python", "proficiency": "advanced", "duration_months": 24, "endorsements": 5}
+        ],
+        "redrob_signals": {},
+    }
+    features_row = {
+        "consulting_only_flag": 0,
+        "yoe_in_ideal_band": 1.0,
+        "india_score": 1.0,
+    }
+    reasoning = generate(candidate, rank=55, score=1.0, features_row=features_row, honeypot_flags=[])
+    assert "not ml-focused" not in reasoning.lower(), reasoning
+    assert "weaker match for the role" not in reasoning.lower(), reasoning
+    assert "not a strong fit" not in reasoning.lower(), reasoning
+    assert 60 <= len(reasoning) <= 200, len(reasoning)
+    assert_grounded(candidate, reasoning)

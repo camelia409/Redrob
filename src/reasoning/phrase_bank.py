@@ -53,6 +53,13 @@ LEAD_PHRASES_71_100 = [
     "Risky candidate: {title} at {company}, {yoe:.1f} yrs",
 ]
 
+# Neutral language for mid-tier candidates whose title already looks ML-aligned.
+NEUTRAL_MID_TIER_PHRASES = [
+    "solid mid-tier match: {title} at {company}, {yoe:.1f} yrs; {skill_summary}",
+    "reasonable candidate: {title} with {yoe:.1f} years and {skill_summary}",
+    "credible fit: {title} at {company}; {yoe:.1f} yrs of relevant experience; {skill_summary}",
+]
+
 
 # ---------------------------------------------------------------------------
 # Strength / concern / reason clauses
