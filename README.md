@@ -179,8 +179,3 @@ requirements.txt         Pinned Python dependencies.
 DECISIONS.md             Full architectural decision log.
 ```
 
-## License and team
-
-Hackathon submission. Not licensed for production hiring use.
-
-Team: to be filled at submission time.
