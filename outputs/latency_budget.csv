@@ -1,0 +1,10 @@
+stage,seconds,pct_of_pipeline,pct_of_5min_budget
+data_integrity_check,0.47,0.5,0.2
+load_candidates,4.10,4.5,1.4
+bm25_retrieval,81.13,88.6,27.0
+dense_retrieval,5.12,5.6,1.7
+union_and_feature_extraction,0.61,0.7,0.2
+weighted_rerank,0.01,0.0,0.0
+rrf_fusion,0.10,0.1,0.0
+reasoning_generation_and_grounding,0.05,0.1,0.0
+TOTAL,91.61,100.0,30.5
