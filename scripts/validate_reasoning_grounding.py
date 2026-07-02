@@ -1,4 +1,4 @@
-"""Post-hoc audit: verify every reasoning in submission_v2.csv is grounded."""
+"""Post-hoc audit: verify every reasoning in a submission CSV is grounded."""
 import csv
 import sys
 from pathlib import Path
@@ -8,17 +8,18 @@ from src.reasoning.grounding import HallucinationError, assert_grounded
 from src.utils.paths import OUTPUTS
 
 
-SUBMISSION_PATH = OUTPUTS / "submission_v2.csv"
+DEFAULT_SUBMISSION_PATH = OUTPUTS / "submission_v3.csv"
 
 
 def main() -> None:
-    if not SUBMISSION_PATH.exists():
-        print(f"Submission not found: {SUBMISSION_PATH}")
+    submission_path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_SUBMISSION_PATH
+    if not submission_path.exists():
+        print(f"Submission not found: {submission_path}")
         sys.exit(1)
 
     # Read submission rows.
     rows = []
-    with open(SUBMISSION_PATH, "r", encoding="utf-8", newline="") as f:
+    with open(submission_path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             rows.append(row)

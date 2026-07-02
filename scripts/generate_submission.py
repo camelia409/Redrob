@@ -10,6 +10,7 @@ from src.ingestion.jd import get_jd_text
 from src.ingestion.loader import iter_candidates
 from src.ranking.baselines import BM25Ranker
 from src.ranking.dense_ranker import DenseRankerV2
+from src.ranking.rrf_finalizer import fuse_rankings, load_rrf_config
 from src.ranking.weighted_reranker import WeightedReranker
 from src.reasoning.generator import generate
 from src.reasoning.grounding import assert_grounded
@@ -21,7 +22,8 @@ from src.validation.honeypots import honeypot_score_gates_only, run_all_checks
 
 TOP_K = 1500
 WEIGHTS_PATH = CONFIGS / "reranker_weights_v1.yaml"
-OUTPUT_PATH = OUTPUTS / "submission_v2.csv"
+RRF_CONFIG_PATH = CONFIGS / "rrf_finalizer.yaml"
+OUTPUT_PATH = OUTPUTS / "submission_v3.csv"
 HP_PENALTY = -1e6
 
 
@@ -102,6 +104,21 @@ def main() -> None:
         ascending=[False, True, True, True],
     ).reset_index(drop=True)
 
+    rrf_cfg = load_rrf_config(RRF_CONFIG_PATH)
+    if rrf_cfg.get("enabled", True):
+        print(
+            f"Applying RRF fusion with BM25 (alpha={rrf_cfg['alpha']}, k={rrf_cfg['k']})..."
+        )
+        df = fuse_rankings(
+            weighted_df=df,
+            bm25_ranking=bm25_out,
+            alpha=rrf_cfg["alpha"],
+            k=rrf_cfg["k"],
+        )
+        df["score_for_output"] = df["fused_score"]
+    else:
+        df["score_for_output"] = df["reranker_score"]
+
     top100 = df.head(100).copy()
     top100["rank"] = range(1, 101)
 
@@ -117,7 +134,7 @@ def main() -> None:
         reasoning = generate(
             c,
             rank=int(row["rank"]),
-            score=float(row["reranker_score"]),
+            score=float(row["score_for_output"]),
             features_row=features_row,
             honeypot_flags=hp_flags,
         )
@@ -126,8 +143,8 @@ def main() -> None:
     top100["reasoning"] = reasonings
     print(f"  generated and grounded {len(reasonings)} reasonings")
 
-    top100[["candidate_id", "rank", "reranker_score", "reasoning"]].rename(
-        columns={"reranker_score": "score"}
+    top100[["candidate_id", "rank", "score_for_output", "reasoning"]].rename(
+        columns={"score_for_output": "score"}
     ).to_csv(OUTPUT_PATH, index=False)
 
     elapsed = time.time() - t0
@@ -138,10 +155,14 @@ def main() -> None:
         cid = row["candidate_id"]
         c = candidate_map[cid]
         reasoning_preview = row["reasoning"][:90] + "..." if len(row["reasoning"]) > 90 else row["reasoning"]
+        wr = row.get("weighted_rank", "-")
+        br = row.get("bm25_rank_in_pool", "-")
+        fs = row.get("fused_score", row["score_for_output"])
         print(
             f"  #{row['rank']:>3d} {cid}  "
             f"{c['profile'].get('current_title', ''):<35s} "
-            f"score={row['reranker_score']:.4f} hp={row['honeypot_score']}\n"
+            f"score={row['score_for_output']:.6f} hp={row['honeypot_score']} "
+            f"weighted_rank={wr} bm25_rank={br} fused_score={fs:.6f}\n"
             f"      reasoning: {reasoning_preview}"
         )
 
