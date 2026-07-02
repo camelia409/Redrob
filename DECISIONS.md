@@ -307,3 +307,84 @@ Full-population metrics (unknown candidates treated as relevance 0). Composite =
   validator.
 - Prepare Milestone 12: grounded reasoning generator + hallucination assertion
   tests, and a LightGBM alternative reranker if the weighted model still trails.
+
+
+## 2026-07-02 — Milestone 12: grounded reasoning + hallucination guard + submission_v2
+
+### What was built
+
+A template-based reasoning generator (`src/reasoning/generator.py`) that fills
+`outputs/submission_v2.csv` with 100 rank-aware, fully grounded sentences. No
+LLM is used. Every cited fact (title, company, YoE, skills, location,
+concerns) comes from the candidate JSON or honeypot checks.
+
+- `src/reasoning/phrase_bank.py`: deterministic per-candidate phrase variants.
+- `src/reasoning/grounding.py`: `assert_grounded()` raises `HallucinationError`
+  if the text mentions any skill, company, city, or number not present in the
+  candidate JSON.
+- `scripts/generate_submission.py`: generates `submission_v2.csv`; grounding
+  assertion runs inline and fails loud on any mismatch.
+- `scripts/validate_reasoning_grounding.py`: audits all 100 reasonings.
+- `scripts/hand_label_evaluation.py`: first evaluation against the 30 human
+  hand labels, independent of the rubric.
+
+### Zero-hallucination proof
+
+```text
+$ python scripts/validate_reasoning_grounding.py
+PASS: 100/100 reasonings are grounded.
+```
+
+### Sample reasonings
+
+| rank | candidate_id | reasoning |
+|------|--------------|-----------|
+| 1 | CAND_0042029 | Senior applied-ML engineer profile at Flipkart, 6.5 years; strong skills in OpenSearch, PyTorch, and NLP |
+| 25 | CAND_0083879 | Confident match: Machine Learning Engineer at Ola, 7.1 yrs; depth in Fine-tuning LLMs paired with Sentence Transformers |
+| 55 | CAND_0074225 | Machine Learning Engineer profile at Unacademy; 4.3 years with caveats; Milvus, Vector Search, and Python in the toolkit; flagged: Machine Learning Engineer is a weaker match for the role |
+| 85 | CAND_0015528 | Poor alignment: Applied ML Engineer with 7.4 years at Krutrim; caution: current title Applied ML Engineer is not ML-focused; likely due to current title Applied ML Engineer is not a strong fit |
+
+### Reasoning character distribution
+
+- min: 80
+- mean: 153.8
+- max: 197
+- unique first-3-word openings: 66 / 100
+
+### Hand-label evaluation (30 human labels)
+
+| ranker | NDCG@10 | NDCG@30 | mean_manual@10 |
+|--------|---------|---------|----------------|
+| hybrid_v2_rrf | 0.947 | 0.947 | 1.20 |
+| bm25 | 0.910 | 0.936 | 3.30 |
+| weighted_reranker_top100 | 0.835 | 0.922 | 2.90 |
+| dense_v2 | 0.586 | 0.812 | 2.20 |
+
+The weighted reranker trails BM25 and Hybrid-v2 on the hand-label NDCG@10.
+This is consistent with the full-population ablation where it wins on the
+predicted composite but has lower MAP. The hand-label set is small (30
+profiles), so we will **not** re-tune weights on it — that would be overfitting.
+Instead, Milestone 13 will train a LightGBM reranker on a proper train/held-out
+silver split.
+
+### Vector-DB decision
+
+**Decision:** Do not introduce a dedicated vector database (Chroma, Weaviate,
+Pinecone, etc.) at this stage.
+
+**Rationale:**
+- We already have a pre-computed MiniLM embedding index (`candidate_embeddings.npy`
+  + `candidate_ids.npy`) that gives sub-second dense retrieval.
+- The dense-v2 channel is complementary but weaker than BM25 on the metrics that
+  matter; adding a vector DB would add operational complexity without improving
+  the ranking signal.
+- The retrieval union (BM25 top-1500 ∪ Dense-v2 top-1500 = ~2,500 candidates)
+  provides sufficient re-ranking input; a vector DB would not change the union.
+- If a stronger embedding model or fine-tuned dense retriever is introduced
+  later, we can revisit a managed vector store for faster updates.
+
+### Action
+
+- Ship `outputs/submission_v2.csv` (format-validated + 100/100 grounded).
+- Move to Milestone 13: LightGBM point-wise reranker with a proper
+  train/validation split on silver labels.

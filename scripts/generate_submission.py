@@ -11,15 +11,17 @@ from src.ingestion.loader import iter_candidates
 from src.ranking.baselines import BM25Ranker
 from src.ranking.dense_ranker import DenseRankerV2
 from src.ranking.weighted_reranker import WeightedReranker
+from src.reasoning.generator import generate
+from src.reasoning.grounding import assert_grounded
 from src.utils import integrity
 from src.utils.paths import CONFIGS, OUTPUTS
 from src.validation.duplicates import find_duplicate_fingerprints
-from src.validation.honeypots import honeypot_score_gates_only
+from src.validation.honeypots import honeypot_score_gates_only, run_all_checks
 
 
 TOP_K = 1500
 WEIGHTS_PATH = CONFIGS / "reranker_weights_v1.yaml"
-OUTPUT_PATH = OUTPUTS / "submission_v1.csv"
+OUTPUT_PATH = OUTPUTS / "submission_v2.csv"
 HP_PENALTY = -1e6
 
 
@@ -102,7 +104,28 @@ def main() -> None:
 
     top100 = df.head(100).copy()
     top100["rank"] = range(1, 101)
-    top100["reasoning"] = ""  # placeholder for Milestone 12
+
+    print("\nGenerating grounded reasonings for top 100...")
+    candidate_map = {c["candidate_id"]: c for c in candidates}
+    reasonings = []
+    for _, row in top100.iterrows():
+        cid = row["candidate_id"]
+        c = candidate_map[cid]
+        all_checks = run_all_checks(c)
+        hp_flags = [name for name, (tripped, _) in all_checks.items() if tripped]
+        features_row = row.to_dict()
+        reasoning = generate(
+            c,
+            rank=int(row["rank"]),
+            score=float(row["reranker_score"]),
+            features_row=features_row,
+            honeypot_flags=hp_flags,
+        )
+        assert_grounded(c, reasoning)
+        reasonings.append(reasoning)
+    top100["reasoning"] = reasonings
+    print(f"  generated and grounded {len(reasonings)} reasonings")
+
     top100[["candidate_id", "rank", "reranker_score", "reasoning"]].rename(
         columns={"reranker_score": "score"}
     ).to_csv(OUTPUT_PATH, index=False)
@@ -113,11 +136,13 @@ def main() -> None:
     print("\nTop 5 candidates:")
     for _, row in top100.head(5).iterrows():
         cid = row["candidate_id"]
-        c = next(c for c in candidates if c["candidate_id"] == cid)
+        c = candidate_map[cid]
+        reasoning_preview = row["reasoning"][:90] + "..." if len(row["reasoning"]) > 90 else row["reasoning"]
         print(
             f"  #{row['rank']:>3d} {cid}  "
             f"{c['profile'].get('current_title', ''):<35s} "
-            f"score={row['reranker_score']:.4f} hp={row['honeypot_score']}"
+            f"score={row['reranker_score']:.4f} hp={row['honeypot_score']}\n"
+            f"      reasoning: {reasoning_preview}"
         )
 
     hp_in_top100 = (top100["honeypot_score"] >= 3).sum()
