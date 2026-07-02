@@ -1,0 +1,29 @@
+.venv/
+.git/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Exclude heavy generated artifacts by default; specific precomputed files are
+# explicitly copied in the Dockerfile fallback path.
+data/processed/*.parquet
+!data/processed/.gitkeep
+
+data/silver/
+outputs/
+notebooks/
+docs/
+tests/
+app/
+
+# Utility/debug scripts not needed in the image
+scripts/label_*.py
+scripts/inspect_*.py
+scripts/hand_label_evaluation.py
+scripts/bakeoff.py
+
+.DS_Store
+.vscode/
+.idea/
