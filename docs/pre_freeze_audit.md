@@ -155,6 +155,6 @@ Well under the 5-minute (300s) limit.
 - `outputs/submission_v2.csv` is the audited candidate.
 - `outputs/final_submission.csv` is a byte-identical freeze of v2.
 - v1 remains in `outputs/submission_v1.csv` for the audit trail.
-- The submission is ready for packaging in Docker / Streamlit in the next milestone.
+- The submission is ready for Docker packaging in the next milestone.
 
 **Freeze approved.**
