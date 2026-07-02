@@ -161,8 +161,7 @@ Runtime (see `docs/pre_freeze_audit.md`):
 - Environment: `requirements.txt` with pinned versions plus CPU-only torch.
 - Docker: image reproduces the submission byte-identically in candidate
   ordering. See `docs/docker_reproduction_audit.md`.
-- Git commit: `454dabb` on main; tag `submission-v3-frozen` to be applied at
-  final submission time.
+- Git commit: `c94f41f` on main; tag `submission-v3-frozen` applied.
 - Runtime: 90.5 seconds end-to-end on a Windows 11 laptop with 16 GB RAM, CPU
   only.
 
