@@ -89,9 +89,21 @@ def semantic_jd_fit(
         agreement = 1.0 - abs(rank_bm25 - rank_dense) / (n_candidates - 1)
         agreement = max(0.0, min(1.0, agreement))
 
+    bm25_rank_within_union = 0.0
+    dense_v2_rank_within_union = 0.0
+    if n_candidates is not None and n_candidates > 1:
+        if rank_bm25 is not None:
+            bm25_rank_within_union = 1.0 - (rank_bm25 - 1) / (n_candidates - 1)
+            bm25_rank_within_union = max(0.0, min(1.0, bm25_rank_within_union))
+        if rank_dense is not None:
+            dense_v2_rank_within_union = 1.0 - (rank_dense - 1) / (n_candidates - 1)
+            dense_v2_rank_within_union = max(0.0, min(1.0, dense_v2_rank_within_union))
+
     return {
         "dense_v2_score": dense_score,
         "bm25_score_normalized": bm25_norm,
+        "bm25_rank_within_union": bm25_rank_within_union,
+        "dense_v2_rank_within_union": dense_v2_rank_within_union,
         "bm25_dense_rank_agreement": agreement,
     }
 

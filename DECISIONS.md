@@ -247,3 +247,63 @@ or zero out the bottom-5. After the first model fit, run feature importance and
 remove any feature with both low correlation and low model importance. Do not
 remove features now based on correlation alone because some may become useful in
 non-linear combinations (e.g., dense_v2_score × yoe_in_ideal_band).
+
+
+## 2026-07-02 — Milestone 11: weighted reranker + first end-to-end submission
+
+### Weight design rationale
+
+Weights are hand-designed from the Milestone 10 correlations and domain
+judgment. They are intentionally NOT normalized to sum to 1.
+
+- Positive weight on `strict_ml_skill_count_capped` would inflate keyword
+  stuffers — instead we assign a small NEGATIVE weight (-0.05) based on the
+  Milestone 10 finding that this feature correlates negatively with silver score.
+- `dense_v2_score` gets only a small positive weight (0.03) because its raw
+  cosine has near-zero correlation; it is retained as a complementary channel.
+- `bm25_rank_within_union` and `dense_v2_rank_within_union` are added as new
+  rank-agreement features and weighted below the raw normalized BM25 score.
+
+Family-level total weights approximately:
+
+| family | approx. total |
+|--------|---------------|
+| semantic | 0.32 |
+| skills | 0.12 |
+| career | 0.34 |
+| production | 0.12 |
+| behavioral | 0.14 |
+| logistics | 0.07 |
+| integrity | 0.08 |
+
+### Predicted composite table
+
+Full-population metrics (unknown candidates treated as relevance 0). Composite =
+0.50·NDCG@10 + 0.30·NDCG@50 + 0.15·MAP + 0.05·P@10.
+
+| ranker | NDCG@10 | NDCG@50 | MAP | P@10 | mean_silver@100 | HP@100 | composite | runtime |
+|--------|---------|---------|-----|------|-----------------|--------|-----------|---------|
+| weighted_reranker_top100 | 0.793 | 0.893 | 0.412 | 1.00 | 3.78 | 0.0% | **0.7762** | 0.0s |
+| weighted_reranker_top100_no_honeypot_gate | 0.793 | 0.893 | 0.412 | 1.00 | 3.78 | 0.0% | **0.7762** | 0.0s |
+| skill_count | 0.798 | 0.794 | 0.574 | 1.00 | 3.41 | 0.0% | 0.7734 | 0.2s |
+| bm25 | 0.731 | 0.840 | 0.583 | 0.90 | 3.53 | 0.0% | 0.7500 | 67.7s |
+| hybrid_v2_rrf | 0.604 | 0.739 | 0.821 | 0.80 | 3.41 | 0.0% | 0.6865 | 68.8s |
+| dense_v2 | 0.598 | 0.705 | 0.370 | 0.90 | 3.34 | 0.0% | 0.6110 | 3.8s |
+| random | 0.413 | 0.451 | 0.349 | 0.30 | 2.01 | 0.0% | 0.4091 | 0.1s |
+
+### Actual result
+
+- **Winning ranker by predicted composite:** `weighted_reranker_top100`
+  (tied with the no-gate control because no candidate in the retrieval union
+  tripped >=3 honeypot gates).
+- **HP@100:** 0.0% (well under the 10% guardrail).
+- **Validator status:** PASS.
+- **End-to-end runtime of `scripts/generate_submission.py`:** 77.2s
+  (well under the 240s budget).
+
+### Decision
+
+- Ship `outputs/submission_v1.csv`; format validated against the challenge
+  validator.
+- Prepare Milestone 12: grounded reasoning generator + hallucination assertion
+  tests, and a LightGBM alternative reranker if the weighted model still trails.
