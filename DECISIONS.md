@@ -426,6 +426,18 @@ Cross-encoder module remains in the codebase with enabled: false. Reproducible
 and available for future experiments.
 
 
+## 2026-07-02 — Final submission
+
+- **Submitted at:** (pending portal confirmation)
+- **Portal confirmation / reference number:** (pending)
+- **Frozen tag:** `submission-v3-frozen`
+- **GitHub commit at submission:** `6badfdb`
+- **Repository:** https://github.com/camelia409/Redrob
+- **Frozen submission file:** `outputs/final_submission.csv`
+- **All 7 final gates:** PASS
+- **Portal form status:** prepared in `docs/portal_metadata.md`; final submit
+  step requires the Redrob hackathon portal URL and team credentials.
+
 ## 2026-07-02 — Milestone 23: Bootstrap confidence intervals on composite
 
 ### Method
