@@ -1,4 +1,4 @@
 rrf_finalizer:
   alpha: 0.7        # BM25 channel weight (weighted-reranker is 1.0 baseline)
   k: 60             # RRF constant, Cormack et al. SIGIR 2009 default
-  enabled: false    # disabled: hand-label mean@10 did not reach 3.15 at any alpha
+  enabled: true     # enabled for v4 cross-encoder block

@@ -1,0 +1,101 @@
+candidate_id,rank,score,reasoning
+CAND_0046064,1,0.8967488455069205,Senior NLP Engineer at Salesforce with 8.9 years; advanced PEFT + Pinecone capabilities
+CAND_0071974,2,0.8719751943489649,Senior AI Engineer at Netflix with 7.8 years; advanced Elasticsearch + Qdrant capabilities
+CAND_0079284,3,0.8635660951239645,"Strong 4.9-year applied-ML profile, currently Machine Learning Engineer at Google; depth in Elasticsearch paired with Machine Learning"
+CAND_0002025,4,0.8563914616168453,"Top-fit candidate: Senior AI Engineer at Apple (5.9 yrs); FAISS, TensorFlow, and LangChain in the toolkit"
+CAND_0050454,5,0.8374222565168326,"Senior AI Engineer with 6.8 years and clear ML production evidence; relevant expertise: scikit-learn, QLoRA, Fine-tuning LLMs"
+CAND_0006418,6,0.8320366264568517,Machine Learning Engineer at Verloop.io with 5.7 years; advanced Weaviate + Embeddings capabilities
+CAND_0030031,7,0.8231714370685064,Standout AI Engineer at Microsoft; 5.7 years of relevant experience; solid command of LoRA and NLP
+CAND_0088025,8,0.8135817801372557,"Senior Staff Machine Learning Engineer with 8.6 years and clear ML production evidence; relevant expertise: Learning to Rank, TensorFlow, QLoRA"
+CAND_0011687,9,0.8056645621830869,"Strong 7.8-year applied-ML profile, currently Senior NLP Engineer at Niramai; depth in OpenSearch paired with PEFT"
+CAND_0008425,10,0.8055960546195273,"Strong 7.8-year applied-ML profile, currently Senior NLP Engineer at Ola; depth in Sentence Transformers paired with Haystack"
+CAND_0077337,11,0.8022453568115948,Strong Staff Machine Learning Engineer background at Paytm; 7.0 years; solid command of Recommendation Systems and Python
+CAND_0092278,12,0.7990188575614086,"Strong Senior NLP Engineer background at Microsoft; 6.8 years; NLP, Hugging Face Transformers, and QLoRA in the toolkit"
+CAND_0018499,13,0.7972927227853448,Solid 7.2-year profile as Senior Machine Learning Engineer at Zomato; solid command of RAG and scikit-learn
+CAND_0042029,14,0.7963968396186829,Senior Data Scientist at Flipkart with 6.5 years; advanced OpenSearch + PyTorch capabilities
+CAND_0037566,15,0.7943344706118405,"Good ML fit: Machine Learning Engineer with 6.9 years at LinkedIn; LangChain, TensorFlow, and Pinecone in the toolkit"
+CAND_0093547,16,0.7930117197177051,"Good ML fit: Senior Machine Learning Engineer with 2.9 years at PhonePe; strong skills in RAG, PEFT, and Haystack"
+CAND_0005260,17,0.7836837428787924,"Good ML fit: Senior NLP Engineer with 5.2 years at Netflix; strong skills in Embeddings, NLP, and Semantic Search"
+CAND_0081846,18,0.781273475677094,Lead AI Engineer at Razorpay with 6.7 years; advanced Embeddings + Information Retrieval capabilities
+CAND_0046525,19,0.7779337684324745,Solid 6.1-year profile as Senior Machine Learning Engineer at Genpact AI; solid command of Sentence Transformers and Machine Learning
+CAND_0064326,20,0.7771273027571695,"Strong Search Engineer background at Sarvam AI; 7.6 years; QLoRA, Deep Learning, and Python in the toolkit"
+CAND_0081852,21,0.7737659009828132,Strong Senior Data Scientist background at Mad Street Den; 5.9 years; solid command of LoRA and Vector Search
+CAND_0099806,22,0.7711417924429109,"Good ML fit: AI Engineer with 4.6 years at Mad Street Den; Prompt Engineering, Embeddings, and Qdrant in the toolkit"
+CAND_0094759,23,0.7693621949542152,Strong Lead AI Engineer background at Meta; 8.6 years; solid command of Prompt Engineering and Hugging Face Transformers
+CAND_0095528,24,0.768336852340752,Senior Data Scientist at Netflix with 5.3 years; depth in Elasticsearch paired with Semantic Search
+CAND_0093912,25,0.7679124198202503,Senior Data Scientist at Razorpay with 5.3 years; depth in Vector Search paired with Elasticsearch
+CAND_0053591,26,0.7640287944691648,AI Engineer at Ola with 5.3 years; depth in Sentence Transformers paired with OpenSearch
+CAND_0007411,27,0.7638119217428131,Senior Machine Learning Engineer at Amazon with 8.0 years; depth in OpenSearch paired with BM25
+CAND_0044222,28,0.7593249559554827,"Good ML fit: AI Engineer with 7.7 years at PolicyBazaar; LangChain, LlamaIndex, and OpenSearch in the toolkit"
+CAND_0091909,29,0.7592548651378748,"Good ML fit: Machine Learning Engineer with 6.9 years at Rephrase.ai; Hugging Face Transformers, LangChain, and scikit-learn in the toolkit"
+CAND_0062247,30,0.7559776384944765,Solid 7.3-year profile as AI Engineer at Google; solid command of Qdrant and Hugging Face Transformers
+CAND_0065195,31,0.754101291730735,"credible fit: Search Engineer at CRED; 5.1 yrs of relevant experience; skills include Qdrant, QLoRA, and Elasticsearch"
+CAND_0039754,32,0.7527548119110601,Senior Applied Scientist profile at Meta; 16.2 years with caveats; solid command of Python and OpenSearch; flagged: YoE 16.2 outside ideal band
+CAND_0010257,33,0.7513397213199641,"solid mid-tier match: Senior Data Scientist at Google, 6.5 yrs; skills include Python, Milvus, and Recommendation Systems"
+CAND_0070202,34,0.7481762958202111,"reasonable candidate: Machine Learning Engineer with 5.1 years and skills include Embeddings, NLP, and PyTorch"
+CAND_0028793,35,0.7456540006410061,"credible fit: Search Engineer at Google; 7.2 yrs of relevant experience; skills include LoRA, Embeddings, and Haystack"
+CAND_0079064,36,0.7426390440148432,"reasonable candidate: Senior Data Scientist with 5.2 years and skills include Fine-tuning LLMs, Pinecone, and Semantic Search"
+CAND_0011162,37,0.7341572542733094,"Mixed fit: Recommendation Systems Engineer at upGrad, 5.8 yrs; relevant expertise: FAISS, OpenSearch, LangChain; notable gap: mostly non-technical roles"
+CAND_0079387,38,0.7284487463798708,"credible fit: AI Engineer at Microsoft; 6.9 yrs of relevant experience; skills include OpenSearch, LoRA, and Vector Search"
+CAND_0029367,39,0.7256317688232056,"solid mid-tier match: Senior Data Scientist at Rephrase.ai, 5.7 yrs; skills include Sentence Transformers, FAISS, and RAG"
+CAND_0060072,40,0.7246703569854673,"Staff Machine Learning Engineer profile at Amazon; 5.7 years with caveats; Prompt Engineering, BM25, and Pinecone in the toolkit; flagged: mostly non-technical roles"
+CAND_0051630,41,0.7238307719598838,"solid mid-tier match: Machine Learning Engineer at Razorpay, 6.0 yrs; skills include Information Retrieval, LoRA, and Elasticsearch"
+CAND_0060054,42,0.7218437798399779,"credible fit: AI Engineer at Mad Street Den; 6.4 yrs of relevant experience; skills include Recommendation Systems, TensorFlow, and Prompt Engineering"
+CAND_0030348,43,0.7207998850717334,"reasonable candidate: Machine Learning Engineer with 4.5 years and skills include LlamaIndex, Haystack, and pgvector"
+CAND_0040887,44,0.7193019694761544,"Mixed fit: Machine Learning Engineer at Netflix, 4.7 yrs; solid command of LoRA and Python; notable gap: based in Toronto"
+CAND_0041611,45,0.7184916405720119,"Adequate 6.4-year background as Staff Machine Learning Engineer at Locobuzz; LangChain, Prompt Engineering, and NLP in the toolkit; caution: mostly non-technical roles"
+CAND_0011432,46,0.7167215449970726,"credible fit: Senior Data Scientist at Amazon; 7.6 yrs of relevant experience; skills include QLoRA, pgvector, and Haystack"
+CAND_0075439,47,0.7129892939597161,"solid mid-tier match: Machine Learning Engineer at Flipkart, 4.3 yrs; skills include Elasticsearch, Learning to Rank, and Vector Search"
+CAND_0075574,48,0.7128701376319233,"credible fit: Machine Learning Engineer at Haptik; 5.7 yrs of relevant experience; skills include OpenSearch, Elasticsearch, and scikit-learn"
+CAND_0018549,49,0.7105535416329198,"solid mid-tier match: Recommendation Systems Engineer at Uber, 6.8 yrs; skills include Prompt Engineering, LangChain, and Milvus"
+CAND_0033861,50,0.7093476000515349,"Mixed fit: Senior NLP Engineer at Mad Street Den, 8.0 yrs; relevant expertise: Learning to Rank, LLMs, Vector Search; notable gap: mostly non-technical roles"
+CAND_0058575,51,0.7073214178218197,"Mixed fit: AI Engineer at Krutrim, 5.8 yrs; relevant expertise: Hugging Face Transformers, Pinecone, PyTorch; notable gap: mostly non-technical roles"
+CAND_0018722,52,0.7040675148723151,Recommendation Systems Engineer profile at Saarthi.ai; 6.6 years with caveats; solid command of Hugging Face Transformers and Weaviate; flagged: mostly non-technical roles
+CAND_0055905,53,0.7026385616239936,"Mixed fit: Senior Machine Learning Engineer at Flipkart, 8.1 yrs; solid command of Vector Search and Elasticsearch; notable gap: based in London"
+CAND_0044855,54,0.7019841596861555,"solid mid-tier match: Senior Data Scientist at Flipkart, 6.6 yrs; skills include Information Retrieval, Learning to Rank, and OpenSearch"
+CAND_0005649,55,0.7013722431649374,"solid mid-tier match: Senior Data Scientist at Sarvam AI, 7.4 yrs; skills include Recommendation Systems, Weaviate, and Fine-tuning LLMs"
+CAND_0070398,56,0.6982221278615224,"credible fit: Machine Learning Engineer at Genpact AI; 7.2 yrs of relevant experience; skills include Embeddings, FAISS, and Fine-tuning LLMs"
+CAND_0098846,57,0.6957596463622332,"solid mid-tier match: AI Engineer at upGrad, 7.6 yrs; skills include Qdrant, Machine Learning, and Recommendation Systems"
+CAND_0036437,58,0.6942024059969267,"credible fit: Search Engineer at Rephrase.ai; 4.8 yrs of relevant experience; skills include Sentence Transformers, Elasticsearch, and Weaviate"
+CAND_0032515,59,0.6924877821048093,"Machine Learning Engineer at PharmEasy with 5.1 years; relevant expertise: Semantic Search, PyTorch, Elasticsearch; concern: based in Seattle"
+CAND_0086022,60,0.6881658500473373,"Measured match: Senior Applied Scientist with 5.3 years at Sarvam AI; strong skills in PyTorch, Sentence Transformers, and pgvector; issue: mostly non-technical roles"
+CAND_0084819,61,0.6881096759994875,"reasonable candidate: Search Engineer with 4.5 years and skills include LoRA, Information Retrieval, and OpenSearch"
+CAND_0066999,62,0.6874783999679319,"solid mid-tier match: Recommendation Systems Engineer at Microsoft, 5.9 yrs; skills include LLMs, FAISS, and BM25"
+CAND_0004402,63,0.6872861594745291,"solid mid-tier match: AI Research Engineer at Yellow.ai, 6.0 yrs; skills include BentoML, TTS, and Learning to Rank"
+CAND_0001610,64,0.683908034771715,Measured match: Machine Learning Engineer with 3.0 years at Dream11; advanced Fine-tuning LLMs + FAISS capabilities; issue: YoE 3.0 outside ideal band
+CAND_0047721,65,0.6833695442271986,"reasonable candidate: Senior Data Scientist with 7.0 years and skills include Qdrant, NLP, and Information Retrieval"
+CAND_0078002,66,0.678986844338353,"solid mid-tier match: Machine Learning Engineer at Meta, 6.3 yrs; skills include QLoRA, TensorFlow, and LlamaIndex"
+CAND_0015528,67,0.6780657729763837,"credible fit: Applied ML Engineer at Krutrim; 7.4 yrs of relevant experience; skills include Deep Learning, FAISS, and OpenSearch"
+CAND_0030827,68,0.6766751510592516,Senior Data Scientist profile at Freshworks; 5.4 years with caveats; solid command of LangChain and Prompt Engineering; flagged: based in Singapore
+CAND_0005538,69,0.6759714900289189,Measured match: Senior AI Engineer with 5.9 years at Adobe; advanced pgvector + Deep Learning capabilities; issue: mostly non-technical roles
+CAND_0013613,70,0.6726620860938963,"Measured match: Machine Learning Engineer with 4.7 years at Adobe; strong skills in TensorFlow, Sentence Transformers, and Fine-tuning LLMs; issue: based in Singapore"
+CAND_0042100,71,0.6715295868569391,Weak fit: Machine Learning Engineer at Freshworks with 7.3 years
+CAND_0010685,72,0.6685699134223942,Low-confidence NLP Engineer profile at Rephrase.ai; 6.7 years; flagged: mostly non-technical roles
+CAND_0020877,73,0.6672819660137124,Low-confidence Applied ML Engineer profile at CRED; 5.1 years
+CAND_0024620,74,0.665651863193933,Weak fit: AI Engineer at PharmEasy with 5.9 years; concern: mostly non-technical roles
+CAND_0083307,75,0.6637073761154828,"Low-confidence Search Engineer profile at CRED; 7.8 years Current profile: Search Engineer at CRED, 7.8 years experience."
+CAND_0053695,76,0.6627589226095952,Weak fit: Recommendation Systems Engineer at Meesho with 5.8 years; concern: mostly non-technical roles
+CAND_0049538,77,0.660207957691759,Poor alignment: Applied ML Engineer with 5.8 years at Saarthi.ai; caution: mostly non-technical roles
+CAND_0052328,78,0.659736557940186,Weak fit: Recommendation Systems Engineer at Amazon with 6.5 years
+CAND_0076251,79,0.6595793654062374,"Low-confidence Search Engineer profile at Haptik; 7.6 years Current profile: Search Engineer at Haptik, 7.6 years experience."
+CAND_0024147,80,0.6581385628874397,"Poor alignment: ML Engineer with 5.9 years at Ola Current profile: ML Engineer at Ola, 5.9 years experience."
+CAND_0064904,81,0.6579042534851433,"Low-confidence AI Engineer profile at LinkedIn; 4.9 years Current profile: AI Engineer at LinkedIn, 4.9 years experience."
+CAND_0010655,82,0.6532712104613081,"Weak fit: ML Engineer at upGrad with 5.8 years Current profile: ML Engineer at upGrad, 5.8 years experience."
+CAND_0039383,83,0.6529915726714217,"Concerning match: Applied ML Engineer at Meesho, 7.1 yrs; notable gap: mostly non-technical roles"
+CAND_0061265,84,0.6515842720143674,"Concerning match: Recommendation Systems Engineer at Zoho, 6.6 yrs"
+CAND_0044883,85,0.6503518320236951,Weak fit: AI Engineer at Mad Street Den with 6.3 years; concern: mostly non-technical roles
+CAND_0009024,86,0.6495987540655491,Weak fit: Search Engineer at Google with 5.2 years; concern: mostly non-technical roles; likely due to limited ML-specific career history
+CAND_0051004,87,0.6465588443515642,"Risky candidate: Senior Data Scientist at CRED, 4.7 yrs Current profile: Senior Data Scientist at CRED, 4.7 years experience."
+CAND_0065878,88,0.645732567349953,"Risky candidate: Senior Data Scientist at Niramai, 7.8 yrs; issue: mostly non-technical roles"
+CAND_0061655,89,0.6454586912242732,Poor alignment: Machine Learning Engineer with 4.6 years at Krutrim
+CAND_0057563,90,0.6429992074171519,"Poor alignment: NLP Engineer with 6.8 years at Locobuzz Current profile: NLP Engineer at Locobuzz, 6.8 years experience."
+CAND_0026532,91,0.6423494045299455,"Concerning match: Recommendation Systems Engineer at Zomato, 4.8 yrs; notable gap: mostly non-technical roles; driven by limited ML-specific career history"
+CAND_0055992,92,0.6367638899615088,Weak fit: AI Engineer at CRED with 16.9 years; concern: YoE 16.9 outside ideal band
+CAND_0041610,93,0.6339315842683154,"Concerning match: Recommendation Systems Engineer at Zoho, 6.7 yrs; notable gap: mostly non-technical roles"
+CAND_0024466,94,0.6297665467193109,Low-confidence Search Engineer profile at PharmEasy; 5.2 years; flagged: mostly non-technical roles; mainly because of limited ML-specific career history
+CAND_0089552,95,0.6286576976814912,Weak fit: Machine Learning Engineer at Netflix with 6.0 years
+CAND_0001930,96,0.6283516257678833,"Risky candidate: Senior Software Engineer (ML) at Dream11, 6.9 yrs; issue: mostly non-technical roles"
+CAND_0069905,97,0.6267421189662516,"Risky candidate: Applied ML Engineer at Sarvam AI, 6.6 yrs; issue: mostly non-technical roles"
+CAND_0000031,98,0.6243351781787702,"Risky candidate: Recommendation Systems Engineer at Swiggy, 6.0 yrs; issue: mostly non-technical roles; driven by limited ML-specific career history"
+CAND_0064270,99,0.623978853046459,"Risky candidate: Applied ML Engineer at Verloop.io, 4.2 yrs Current profile: Applied ML Engineer at Verloop.io, 4.2 years experience."
+CAND_0083879,100,0.622101598344954,"Concerning match: Machine Learning Engineer at Ola, 7.1 yrs Current profile: Machine Learning Engineer at Ola, 7.1 years experience."

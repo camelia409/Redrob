@@ -9,10 +9,16 @@ from src.features.extractor import FeatureExtractor
 from src.ingestion.jd import get_jd_text
 from src.ingestion.loader import iter_candidates
 from src.ranking.baselines import BM25Ranker
+from src.ranking.cross_encoder_ranker import (
+    CrossEncoderReranker,
+    cross_encoder_rerank,
+    load_cross_encoder_config,
+)
 from src.ranking.dense_ranker import DenseRankerV2
 from src.ranking.rrf_finalizer import fuse_rankings, load_rrf_config
 from src.ranking.weighted_reranker import WeightedReranker
 from src.reasoning.generator import generate
+from src.retrieval.embeddings import load_jd_query_v2
 from src.reasoning.grounding import assert_grounded
 from src.utils import integrity
 from src.utils.paths import CONFIGS, OUTPUTS
@@ -23,7 +29,8 @@ from src.validation.honeypots import honeypot_score_gates_only, run_all_checks
 TOP_K = 1500
 WEIGHTS_PATH = CONFIGS / "reranker_weights_v1.yaml"
 RRF_CONFIG_PATH = CONFIGS / "rrf_finalizer.yaml"
-OUTPUT_PATH = OUTPUTS / "submission_v3.csv"
+CE_CONFIG_PATH = CONFIGS / "cross_encoder.yaml"
+OUTPUT_PATH = OUTPUTS / "submission_v4.csv"
 HP_PENALTY = -1e6
 
 
@@ -119,6 +126,35 @@ def main() -> None:
     else:
         df["score_for_output"] = df["reranker_score"]
 
+    # --- Cross-encoder rerank on top 500 ---
+    ce_cfg = load_cross_encoder_config(CE_CONFIG_PATH)
+    if ce_cfg.get("enabled", False):
+        print(
+            f"Cross-encoder rerank on top {ce_cfg['top_n_to_rerank']} "
+            f"(model={ce_cfg['model_name']}, beta={ce_cfg['beta']})..."
+        )
+        t_ce = time.time()
+        candidates_by_id = {c["candidate_id"]: c for c in candidates}
+        jd_query = load_jd_query_v2()
+        ce_reranker = CrossEncoderReranker(
+            model_name=ce_cfg["model_name"],
+            batch_size=ce_cfg["batch_size"],
+        )
+        prior_col = "fused_score" if rrf_cfg.get("enabled", True) else "reranker_score"
+        df = cross_encoder_rerank(
+            df=df,
+            candidates_by_id=candidates_by_id,
+            jd_text=jd_query,
+            reranker=ce_reranker,
+            top_n_to_rerank=ce_cfg["top_n_to_rerank"],
+            beta=ce_cfg["beta"],
+            prior_score_col=prior_col,
+        )
+        df["score_for_output"] = df["blended_score"]
+        print(f"  cross-encoder done in {time.time() - t_ce:.1f}s")
+    else:
+        print("Cross-encoder rerank: disabled by config.")
+
     top100 = df.head(100).copy()
     top100["rank"] = range(1, 101)
 
@@ -158,11 +194,12 @@ def main() -> None:
         wr = row.get("weighted_rank", "-")
         br = row.get("bm25_rank_in_pool", "-")
         fs = row.get("fused_score", row["score_for_output"])
+        ce = row.get("cross_encoder_score", "-")
         print(
             f"  #{row['rank']:>3d} {cid}  "
             f"{c['profile'].get('current_title', ''):<35s} "
             f"score={row['score_for_output']:.6f} hp={row['honeypot_score']} "
-            f"weighted_rank={wr} bm25_rank={br} fused_score={fs:.6f}\n"
+            f"weighted_rank={wr} bm25_rank={br} fused_score={fs:.6f} ce_score={ce}\n"
             f"      reasoning: {reasoning_preview}"
         )
 
