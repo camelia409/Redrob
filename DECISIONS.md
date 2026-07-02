@@ -388,3 +388,39 @@ Pinecone, etc.) at this stage.
 - Ship `outputs/submission_v2.csv` (format-validated + 100/100 grounded).
 - Move to Milestone 13: LightGBM point-wise reranker with a proper
   train/validation split on silver labels.
+
+
+## 2026-07-02 — Milestone 17-18: Cross-encoder experiment (kept v3)
+
+### What we tried
+Added a cross-encoder rerank stage using cross-encoder/ms-marco-MiniLM-L-6-v2
+on the top 500 from the weighted+RRF pipeline, blending cross-encoder score with
+prior fused score (beta=0.7). Runtime cost: ~15-25s on CPU. Fits within budget.
+
+### Rubric-based evaluation (misleading, kept for audit trail)
+On rubric-scored labels the cross-encoder appeared to degrade NDCG@10 from
+0.83 to 0.76. This measurement is invalid because the rubric scorer's outputs
+overlap heavily with the weighted reranker's features. See
+docs/block_c_full_labeling.md for details.
+
+### Genuine human comparison (definitive)
+Hand-rated the 8 candidates that differ between v3 top-10 and v4 top-10:
+- 4 candidates cross-encoder promoted into top-10: mean rating 4.50 / 5
+- 4 candidates cross-encoder demoted out of top-10: mean rating 4.75 / 5
+- Delta: -0.25 on human judgment.
+
+Full detail in docs/block_c_manual_diff.md.
+
+### Why cross-encoder underperformed
+The cross-encoder rewards literal text alignment between JD and profile. Our
+top candidates include some whose career bullets describe production ranking
+work in generic terms ("shipped models at scale") rather than in JD-vocabulary
+terms ("built retrieval system"). The cross-encoder ranks the generic-language
+candidates lower even though a human recruiter would forward them. This is a
+known cross-encoder failure mode when the ground truth uses domain-neutral
+language.
+
+### Decision
+Kept v3 (weighted + RRF, tag submission-v1-frozen).
+Cross-encoder module remains in the codebase with enabled: false. Reproducible
+and available for future experiments.

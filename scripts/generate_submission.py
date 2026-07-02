@@ -30,7 +30,7 @@ TOP_K = 1500
 WEIGHTS_PATH = CONFIGS / "reranker_weights_v1.yaml"
 RRF_CONFIG_PATH = CONFIGS / "rrf_finalizer.yaml"
 CE_CONFIG_PATH = CONFIGS / "cross_encoder.yaml"
-OUTPUT_PATH = OUTPUTS / "submission_v4.csv"
+OUTPUT_PATH = OUTPUTS / "submission_v3.csv"
 HP_PENALTY = -1e6
 
 
