@@ -6,6 +6,12 @@ Intelligent Candidate Discovery & Ranking Challenge — India Runs Data & AI 202
 
 End-to-end candidate ranking pipeline: BM25 + dense (MiniLM) retrieval → weighted re-ranker → grounded reasoning generation. Produces a top-100 ranked submission from a 100K candidate pool.
 
+## Try the live demo
+
+🎯 **[https://huggingface.co/spaces/YOUR_USERNAME/redrob-candidate-ranker](https://huggingface.co/spaces/YOUR_USERNAME/redrob-candidate-ranker)**
+
+Upload up to 100 candidates as JSONL, or use the bundled 50-sample, and see the top-10 with grounded reasoning.
+
 ## Setup
 
 ```bash
