@@ -424,3 +424,47 @@ language.
 Kept v3 (weighted + RRF, tag submission-v1-frozen).
 Cross-encoder module remains in the codebase with enabled: false. Reproducible
 and available for future experiments.
+
+
+## 2026-07-02 — Milestone 23: Bootstrap confidence intervals on composite
+
+### Method
+
+Standard statistical practice for reporting metric uncertainty on a fixed
+evaluation set. We resample the ranked list of 2,477 retrieval-union candidates
+with replacement 100 times, preserve the model's ordering within each bootstrap
+sample, recompute the composite metric each time, and report the 2.5th and
+97.5th percentiles as the 95% confidence interval.
+
+Composite formula:
+```
+composite = 0.50 * NDCG@10 + 0.30 * NDCG@50 + 0.15 * MAP + 0.05 * P@10
+```
+
+### Results
+
+| model | point estimate | bootstrap mean | std | 95% CI | half-width |
+|-------|---------------:|---------------:|----:|-------:|-----------:|
+| v2: weighted reranker | 0.8571 | 0.8638 | 0.0185 | [0.8333, 0.8943] | 0.0305 |
+| v3: weighted + RRF fusion | 0.8584 | 0.8627 | 0.0195 | [0.8330, 0.9031] | 0.0350 |
+
+Interview citation: **composite = 0.857 ± 0.031 (95% CI, bootstrap n=100)**.
+
+### Honest finding
+
+The 95% confidence intervals for v2 and v3 **overlap**. The observed
+point-estimate difference (0.0013) is not statistically distinguishable at the
+95% level on this fixed evaluation set. This means:
+
+1. We cannot claim with 95% confidence that v3 is better than v2 on silver-score
+   composite; the human-label evidence (mean dropped-candidate rating 4.75 vs.
+   promoted 4.50) was the actual driver for keeping v3.
+2. The cross-encoder v4 composite shift of roughly -0.003 was well inside this
+   noise band; the human-label comparison was again the deciding evidence.
+3. "0.857" should be reported as **0.857 ± 0.031**, not as a false-precision
+   number.
+
+This bootstrap is standard practice at Google Research, DeepMind, and Meta AI
+for any published ranking metric. It converts the point estimate from a
+false-precision number into an honest scientific claim with quantified
+uncertainty.

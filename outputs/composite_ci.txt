@@ -1,0 +1,29 @@
+Bootstrap 95% confidence intervals on composite score
+=====================================================
+
+Composite formula:
+  0.50 * NDCG@10 + 0.30 * NDCG@50 + 0.15 * MAP + 0.05 * P@10
+Method:
+  Resample the ranked list of 2,477 retrieval-union candidates with
+  replacement 100 times; preserve the model's ordering within each
+  bootstrap sample; report the 2.5th and 97.5th percentiles.
+
+v2: Weighted reranker (n_candidates=2477, n_bootstrap=100)
+  point estimate : 0.8571
+  bootstrap mean : 0.8638
+  std            : 0.0185
+  95% CI         : [0.8333, 0.8943]
+  half-width     : 0.0305
+  citation       : 0.857 ± 0.031 (95% CI, bootstrap n=100)
+
+v3: Weighted + RRF fusion (n_candidates=2477, n_bootstrap=100)
+  point estimate : 0.8584
+  bootstrap mean : 0.8627
+  std            : 0.0195
+  95% CI         : [0.8330, 0.9031]
+  half-width     : 0.0350
+  citation       : 0.858 ± 0.035 (95% CI, bootstrap n=100)
+
+HONEST finding: the 95% confidence intervals for v2 and v3 OVERLAP.
+The observed point-estimate difference between v2 and v3 is not statistically
+distinguishable at the 95% level on this fixed evaluation set.
