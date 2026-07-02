@@ -1,5 +1,7 @@
 # Block C — full-union labeling of v3 vs v4 top-100
 
+> **NOTE (2026-07-02, post-hoc correction):** The evaluation below used labels produced by `src/evaluation/rubric_scorer.py`, **not** hand labels. The file has been renamed to `data/silver/rubric_labels_top100_union.csv` accordingly. This document measures how well v3 and v4 approximate the rubric, not how well they match human judgment. See `docs/block_c_manual_diff.md` for the actual human comparison of the 8 changed candidates.
+
 ## Coverage
 - Union size: **118**
 - Labels collected: **118** (all union candidates)
